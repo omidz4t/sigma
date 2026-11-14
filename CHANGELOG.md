@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.1-unstable (2026-11-14)
+
+- fix: shorten socket test paths for macOS runners
+
 ## v0.2.0-unstable (2026-11-14)
 
 - feat: introduce Sigma messaging agents and calls
