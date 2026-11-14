@@ -11,6 +11,24 @@ use deltachat::{
     context::ContextBuilder,
     message::Viewtype,
 };
+// macOS TMPDIR can be too long for sockaddr_un, even with short filenames.
+// Use a short, unique, private root for tests that exercise Unix sockets.
+fn socket_test_directory() -> std::path::PathBuf {
+    #[cfg(unix)]
+    let base = std::path::PathBuf::from("/tmp");
+    #[cfg(not(unix))]
+    let base = std::env::temp_dir();
+    let root = base.join(format!("sg-{}", uuid::Uuid::new_v4().simple()));
+    let mut builder = std::fs::DirBuilder::new();
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::DirBuilderExt;
+        builder.mode(0o700);
+    }
+    builder.create(&root).unwrap();
+    root
+}
+
 fn parse(args: &[&str]) -> Result<Args> {
     Args::parse(args.iter().map(|s| s.to_string()))
 }
@@ -2559,7 +2577,7 @@ fn agent_alias_and_id_arguments() {
 #[tokio::test(flavor = "multi_thread")]
 async fn agent_ids_and_aliases_persist_and_first_recipient_cannot_change() {
     use crate::agent_registry::{self, Agent};
-    let root = std::env::temp_dir().join(format!("sigma-agent-binding-{}", std::process::id()));
+    let root = socket_test_directory();
     std::fs::create_dir_all(&root).unwrap();
     let context = offline_identity(&root, "agent-owner").await;
     let person = Contact::create(&context, "First person", "first@example.org")
@@ -3011,7 +3029,7 @@ async fn agent_actions_are_authenticated_scoped_and_idempotent_and_send_unquoted
         contact::ContactId,
         message::{Message, MsgId},
     };
-    let root = std::env::temp_dir().join(format!("sigma-action-api-{}", std::process::id()));
+    let root = socket_test_directory();
     std::fs::create_dir_all(&root).unwrap();
     let context = offline_identity(&root, "actions-owner").await;
     let chat = ChatId::create_for_contact(&context, ContactId::SELF)
@@ -3577,7 +3595,7 @@ async fn agent_guard_scopes_approvals_and_revokes_live_action_credentials() {
         contact::{self, ContactId},
         message::Message,
     };
-    let root = std::env::temp_dir().join(format!("sigma-guard-{}", uuid::Uuid::new_v4()));
+    let root = socket_test_directory();
     std::fs::create_dir_all(&root).unwrap();
     let context = offline_identity(&root, "guard-bot").await;
     let owner_context = offline_identity(&root, "guard-owner").await;
@@ -3937,7 +3955,7 @@ async fn agent_guard_scopes_approvals_and_revokes_live_action_credentials() {
 #[tokio::test(flavor = "multi_thread")]
 async fn agent_permission_cli_works_online_under_lock_and_offline() {
     use deltachat::contact::{self, ContactId};
-    let root = std::env::temp_dir().join(format!("sigma-permission-cli-{}", uuid::Uuid::new_v4()));
+    let root = socket_test_directory();
     std::fs::create_dir_all(&root).unwrap();
     let context = offline_identity(&root, "account").await;
     let person = offline_identity(&root, "permission-owner").await;
@@ -4398,7 +4416,7 @@ print('isolated')
 #[tokio::test(flavor = "multi_thread")]
 async fn bot_master_transfer_is_exclusive_and_invalidates_old_scopes() {
     use deltachat::contact::{self, ContactId};
-    let root = std::env::temp_dir().join(format!("sigma-master-{}", uuid::Uuid::new_v4()));
+    let root = socket_test_directory();
     std::fs::create_dir_all(&root).unwrap();
     let context = offline_identity(&root, "master-bot").await;
     let first = offline_identity(&root, "first-master").await;
@@ -4814,7 +4832,7 @@ async fn outbound_browser_bridges_audio_both_directions() {
 #[tokio::test(flavor = "multi_thread")]
 async fn outbound_tool_is_master_only_opt_in_and_idempotent() {
     use deltachat::contact::{self, ContactId};
-    let root = std::env::temp_dir().join(format!("sop-{}", uuid::Uuid::new_v4()));
+    let root = socket_test_directory();
     std::fs::create_dir_all(&root).unwrap();
     let context = offline_identity(&root, "outbound-bot").await;
     let person = offline_identity(&root, "outbound-master").await;
