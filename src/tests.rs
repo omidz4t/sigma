@@ -2795,6 +2795,7 @@ printf '%s\n' '{{"type":"turn.completed"}}'
     let grok = root.join("grok");
     write(
         r##"#!/bin/sh
+cat >/dev/null
 previous=''
 session=''
 for arg in "$@"; do
@@ -2820,7 +2821,7 @@ printf '{"text":"remembered","sessionId":"%s"}\n' "$session"
     assert_eq!(invoke.run("recall the word").await.unwrap(), "remembered");
     assert_eq!(agent_sessions::load(&grok).unwrap().unwrap(), initial);
     write(
-        "#!/bin/sh\nprintf '%s' '{\"text\":\"wrong\",\"sessionId\":\"22222222-2222-4222-8222-222222222222\"}'\n",
+        "#!/bin/sh\ncat >/dev/null\nprintf '%s' '{\"text\":\"wrong\",\"sessionId\":\"22222222-2222-4222-8222-222222222222\"}'\n",
     );
     assert!(invoke.run("refuse a different session").await.is_err());
     assert_eq!(agent_sessions::load(&grok).unwrap().unwrap(), initial);
