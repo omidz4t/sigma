@@ -1,0 +1,18 @@
+{
+  "tool": "Built-in image_gen",
+  "date": "2026-11-14",
+  "assets": {
+    "bot-master.png": {
+      "reference": "User supplied masked fictional character",
+      "prompt": "Identity-preserving square passport-style portrait of the exact masked character; front-facing centered head and shoulders; charcoal business suit, white shirt, dark green tie; no hood; plain light grey studio background; even professional lighting; generous margins; no weapons, text, border or document design."
+    },
+    "atlas-hat.png": {
+      "reference": "Sigma moai-left-near.png",
+      "prompt": "Preserve the exact grey-mauve stone emoji face and rendering; add a tan explorer fedora with dark brown band; centered full head and hat with circular-crop margins; pale sage background; no text."
+    },
+    "nova-hat.png": {
+      "reference": "Sigma moai-right-near.png",
+      "prompt": "Preserve the exact grey-mauve stone emoji face and rendering; add a dark navy flat cap; centered full head and hat with circular-crop margins; pale lavender background; no text."
+    }
+  }
+}

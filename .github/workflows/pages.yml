@@ -1,0 +1,69 @@
+name: Deploy landing page
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'landing/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'LICENSES/**'
+      - 'THIRD_PARTY_NOTICES.md'
+      - 'scripts/build-reference.py'
+      - 'scripts/prepare-repo-stats.py'
+      - '.github/workflows/pages.yml'
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_run:
+    workflows: [CI]
+    branches: [main]
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch public GitHub star count
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/prepare-repo-stats.py
+      - name: Regenerate the complete reference
+        run: python3 scripts/build-reference.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: landing/package-lock.json
+      - run: npm ci
+        working-directory: landing
+      - run: npm run check
+        working-directory: landing
+      - name: Build the SvelteKit SPA
+        working-directory: landing
+        env:
+          BASE_PATH: /sigma
+        run: |
+          npm run build
+          cp build/index.html build/404.html
+          touch build/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: landing/build
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

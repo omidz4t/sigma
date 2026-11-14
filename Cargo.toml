@@ -1,0 +1,23 @@
+[package]
+name = "sigma"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+description = "A stateful bot CLI powered by chatmail core"
+license = "MIT"
+publish = false
+
+[dependencies]
+hmac = "0.12.1"
+sha2 = "0.10.9"
+uuid = { version = "1", features = ["v4"] }
+deltachat = { git = "https://github.com/chatmail/core", rev = "12e3a2a70a1c0dbca09fc341721ad13d8bbaffe4" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "time", "process", "io-util", "net"] }
+
+# netwatch (through core/iroh) uses these existing socket2 APIs on macOS,
+# but does not enable the feature that exposes them.
+[target.'cfg(target_os = "macos")'.dependencies]
+socket2 = { version = "0.5.10", features = ["all"] }
+
+[profile.dev]
+debug = 0

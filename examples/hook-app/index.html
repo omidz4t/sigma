@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sigma hook demo</title>
+<script src="webxdc.js"></script>
+<style>
+body { font: 18px system-ui, sans-serif; max-width: 36rem; margin: 2rem auto; padding: 1rem; }
+button { font: inherit; margin: .4rem 0; padding: .8rem 1.2rem; cursor: pointer; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+</style>
+<h1>Sigma hook demo</h1>
+<p>Both buttons send an event to the bot's executable hook. Its reply appears below and in the chat.</p>
+<button id="live" disabled>Run hook via realtime</button><br>
+<button id="durable" disabled>Run hook via status update</button>
+<p id="status" role="status">Opening app…</p>
+<pre id="result">Waiting for the hook response.</pre>
+<script>
+const live = document.getElementById('live');
+const durable = document.getElementById('durable');
+const status = document.getElementById('status');
+const result = document.getElementById('result');
+let channel;
+function display(payload) {
+  result.textContent = JSON.stringify(payload, null, 2);
+  if (payload && payload.type === 'hook_response') status.textContent = 'Success: the executable hook ran and replied.';
+}
+webxdc.setUpdateListener(update => display(update.payload), 0).then(() => {
+  durable.disabled = false;
+  status.textContent = 'Ready. Tap either button while the bot worker is running.';
+}).catch(error => { status.textContent = String(error); });
+try {
+  if (typeof webxdc.joinRealtimeChannel === 'function') {
+    channel = webxdc.joinRealtimeChannel();
+    channel.setListener(data => {
+      try { display(JSON.parse(new TextDecoder().decode(data))); }
+      catch (_) { result.textContent = new TextDecoder().decode(data); }
+    });
+    live.disabled = false;
+  }
+} catch (error) { status.textContent = String(error); }
+function packet(transport) { return {type: 'button_clicked', transport, at: new Date().toISOString()}; }
+live.onclick = () => {
+  try {
+    channel.send(new TextEncoder().encode(JSON.stringify(packet('realtime'))));
+    status.textContent = 'Realtime button sent; waiting for the hook.';
+  } catch (error) { status.textContent = String(error); }
+};
+durable.onclick = () => {
+  try {
+    webxdc.sendUpdate({payload: packet('status_update')});
+    status.textContent = 'Status-update button sent; waiting for the hook.';
+  } catch (error) { status.textContent = String(error); }
+};
+window.addEventListener('pagehide', () => { if (channel) channel.leave(); });
+</script>
+</html>

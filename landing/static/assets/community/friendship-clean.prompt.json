@@ -1,0 +1,6 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "prompt": "Background replacement only for the provided three-character cartoon portrait. KEEP the Sigma, MADMAIL and Delta Chat characters, all hands/feet, poses, logos, outlines and internal character colors EXACTLY as in the source. Replace every pixel outside the character silhouettes with ONE FLAT SOLID SAGE GREEN COLOR: RGB(146,164,124), hex #92A47C. No texture, no gradient, no vignette, NO ground shadows, NO drop shadows, NO glow, NO haze, NO halos, no lighting effects on the background. Uniform solid #92A47C must fill the space around the heads, between the legs, below the shoes and all four corners. Preserve exact character composition and framing. This will be placed on a website background of #92A47C and needs to blend seamlessly.",
+  "asset": "friendship-clean.png",
+  "reference": "friendship.png"
+}

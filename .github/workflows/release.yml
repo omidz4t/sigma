@@ -1,0 +1,91 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag to publish (for example v0.1.0)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            asset: sigma-linux-x86_64
+          - os: macos-latest
+            asset: sigma-macos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+      - name: Install Linux build tools
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake perl pkg-config
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: cargo build --locked --release
+      - name: Smoke test the release executable
+        run: |
+          ./target/release/sigma --version
+          ./target/release/sigma --help
+          ./target/release/sigma chat-hook-add --help
+      - name: Package binary and documentation
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+          ASSET_NAME: ${{ matrix.asset }}
+        run: |
+          scripts/package.sh --version "$RELEASE_TAG"
+          ASSET_NAME="sigma-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)"
+          cp target/release/sigma "dist/$ASSET_NAME"
+          cd dist
+          if command -v sha256sum >/dev/null 2>&1; then
+            sha256sum "$ASSET_NAME" > "$ASSET_NAME.sha256"
+          else
+            shasum -a 256 "$ASSET_NAME" > "$ASSET_NAME.sha256"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/*
+          if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: sigma-*
+          merge-multiple: true
+          path: artifacts
+      - name: Publish verified release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          options=()
+          if [[ "$RELEASE_TAG" == *-unstable ]]; then
+            options+=(--prerelease)
+          fi
+          gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --title "sigma $RELEASE_TAG" --generate-notes "${options[@]}" artifacts/*

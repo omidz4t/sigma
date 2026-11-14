@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sigma button demo</title>
+<script src="webxdc.js"></script>
+<style>
+body { font: 18px system-ui, sans-serif; max-width: 36rem; margin: 2rem auto; padding: 1rem; }
+button { font: inherit; padding: .8rem 1.2rem; cursor: pointer; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+</style>
+<h1>Sigma button demo</h1>
+<p>Click to send an app update to the CLI and everyone sharing this app.</p>
+<button id="send" disabled>Send button event</button>
+<p id="status" role="status">Loading shared updates…</p>
+<pre id="latest">No updates yet.</pre>
+<script>
+const button = document.getElementById('send');
+const status = document.getElementById('status');
+const latest = document.getElementById('latest');
+window.webxdc.setUpdateListener(update => {
+  latest.textContent = JSON.stringify(update.payload, null, 2);
+  status.textContent = 'Received update #' + update.serial;
+}, 0).then(() => { button.disabled = false; }).catch(error => {
+  status.textContent = 'Could not load updates: ' + String(error);
+});
+button.addEventListener('click', () => {
+  try {
+    window.webxdc.sendUpdate({
+      payload: { action: 'button_clicked', name: window.webxdc.selfName, at: new Date().toISOString() },
+      summary: 'Button clicked'
+    });
+  } catch (error) {
+    status.textContent = 'Could not send update: ' + String(error);
+  }
+});
+</script>
+</html>

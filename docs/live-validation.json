@@ -1,0 +1,55 @@
+{
+  "started": "2026-11-11T13:12:21Z",
+  "checks": [
+    {
+      "name": "two isolated live account initializations",
+      "status": "passed"
+    },
+    {
+      "name": "secure join and key contact discovery",
+      "status": "passed"
+    },
+    {
+      "name": "text sending, continuous receiving, JSON messages, fixed auto reply",
+      "status": "passed"
+    },
+    {
+      "name": "quoted replies and reaction synchronization",
+      "status": "passed"
+    },
+    {
+      "name": "file attachment/text, photo, webxdc, attachment download/export",
+      "status": "passed"
+    },
+    {
+      "name": "group creation, membership, rename, invitation join, all send types with --chat",
+      "status": "passed"
+    },
+    {
+      "name": "channel join, subscribers, editing, posting, removal and leave",
+      "status": "passed"
+    },
+    {
+      "name": "message editing, search, forwarding, deletion and history",
+      "status": "passed"
+    },
+    {
+      "name": "executable JSON message hook and automatic quoted reply",
+      "status": "passed"
+    },
+    {
+      "name": "database-encrypted core backup restore and group removal/leave",
+      "status": "passed"
+    }
+  ],
+  "status": "passed",
+  "finished": "2026-11-11T13:12:52Z",
+  "core_revision": "12e3a2a70a1c0dbca09fc341721ad13d8bbaffe4",
+  "binary_profile": "release",
+  "notes": [
+    "Traffic was sent only between two disposable test accounts; the default account was not used.",
+    "Core backup passphrases encrypt the database; TAR attachment entries remain unencrypted.",
+    "Attachment download/export was checked with already complete messages; partial-download recovery was not induced.",
+    "Hosted GitHub release publication and macOS builds were not executed locally."
+  ]
+}

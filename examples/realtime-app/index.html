@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sigma realtime demo</title>
+<script src="webxdc.js"></script>
+<style>
+body { font: 18px system-ui, sans-serif; max-width: 36rem; margin: 2rem auto; padding: 1rem; }
+button { font: inherit; padding: .8rem 1.2rem; cursor: pointer; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+</style>
+<h1>Sigma realtime demo</h1>
+<p>Keep this app open while the CLI is connected. Packets are live and are not saved.</p>
+<button id="send" disabled>Send realtime button event</button>
+<p id="status" role="status">Opening realtime channel…</p>
+<pre id="latest">No live packets yet.</pre>
+<script>
+const button = document.getElementById('send');
+const status = document.getElementById('status');
+const latest = document.getElementById('latest');
+let channel;
+function send(value) {
+  channel.send(new TextEncoder().encode(JSON.stringify(value)));
+}
+try {
+  if (typeof window.webxdc.joinRealtimeChannel !== 'function') {
+    throw new Error('Your messenger does not support the experimental realtime API.');
+  }
+  channel = window.webxdc.joinRealtimeChannel();
+  channel.setListener(data => {
+    const text = new TextDecoder().decode(data);
+    latest.textContent = text;
+    status.textContent = 'Received ' + data.length + ' live bytes';
+    try {
+      const packet = JSON.parse(text);
+      if (packet.type === 'ping') send({type: 'pong', text: 'Hello from the realtime app'});
+    } catch (_) { /* Arbitrary text/binary packets need not contain JSON. */ }
+  });
+  button.disabled = false;
+  status.textContent = 'Channel open. Keep the CLI online and tap the button.';
+} catch (error) {
+  status.textContent = String(error);
+}
+button.addEventListener('click', () => {
+  try {
+    send({type: 'button_clicked', name: window.webxdc.selfName, at: new Date().toISOString()});
+    status.textContent = 'Button packet submitted; delivery is not acknowledged.';
+  } catch (error) { status.textContent = String(error); }
+});
+window.addEventListener('pagehide', () => { if (channel) channel.leave(); });
+</script>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sigma"
+  short_description: "Message people and share files through Delta Chat"
+  default_prompt: "Use $sigma to connect my Delta Chat account and send me a message."

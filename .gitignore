@@ -1,0 +1,140 @@
+# Rust builds, installed executables, and release packages
+/target/
+/dist/
+/bin/
+*.exe
+*.dll
+*.so
+*.so.*
+*.dylib
+*.a
+*.o
+*.rlib
+*.rmeta
+*.deb
+*.rpm
+*.AppImage
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# Local account state, mail databases, blobs, and hook/worker state
+/.sigma/
+/.config/
+/accounts/
+/*-account/
+/sigma-tests/
+/live-tests/
+/private/
+/local/
+/apps/
+/chat-hooks/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*-blobs/
+sigma.lock
+control.sock
+*.sock
+app.json
+events.jsonl
+hook-calls.jsonl
+
+# Credentials, private keys, environment overrides, and account backups
+.env
+.env.*
+!.env.example
+!.env.sample
+credentials.json
+credentials.*.json
+secrets.json
+secrets.*
+*.secret
+*.key
+*.pem
+*.p12
+*.pfx
+*.asc
+*.gpg
+*.pgp
+id_rsa*
+id_ed25519*
+/backups/
+/exports/
+/downloads/
+join.svg
+*-qr.svg
+
+# Local execution logs, generated reports, and temporary files
+*.log
+*.stderr
+*.pid
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+/.cache/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Keep the text launcher ./sigma, Cargo.lock, and text fixture/example source.
+# Generate binary examples and fixtures locally; never commit them.
+*.xdc
+*.png
+*.wav
+
+# Local landing-page downloads (generated from target/release)
+/landing/downloads/
+
+# Generated GitHub Pages deployment output
+/_site/
+
+# Legacy private state from before the Sigma rename
+/.delta/
+/delta-tests/
+delta.lock
+
+# Public generated Moai logo views requested for the landing page
+!/landing/static/assets/logo/*.png
+
+# SvelteKit landing dependencies and generated build output
+/landing/node_modules/
+/landing/.svelte-kit/
+/landing/build/
+
+# Private account-local contact aliases
+contact-aliases.tsv
+
+# Public generated star-count sticker
+!/landing/static/assets/stickers/sad-smiley.png
+
+!/landing/static/assets/stickers/sad-smiley-closed.png
+
+# Public screenshots from isolated showcase accounts
+!/landing/static/assets/showcase/*.png
+
+# Public generated community illustration
+!/landing/static/assets/community/sigma-house.png
+
+# Official MADMAIL brand asset
+!/landing/static/assets/brands/madmail.png
+
+!/landing/static/assets/community/sigma-house-five.png
+
+!/landing/static/assets/community/friendship.png
+
+!/landing/static/assets/community/friendship-clean.png
+
+# Real AI demonstration phone captures
+!/landing/static/assets/ai-demo/*.png
+
+# Agent demonstration captures
+!/landing/static/assets/agent-demo/*.png
+
+# Local generated working output
+/output/

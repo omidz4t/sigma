@@ -1,0 +1,5 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "prompt": "Use case: illustration-story. Asset type: transparent website illustration for Sigma's friendly MADMAIL section. Use the existing Sigma Moai mascot visible in the reference conversation as the style reference: gray-lavender stone head, long nose, clean rounded shaded emoji illustration. Create a small friendly group of four of these SAME stone-head mascots together, each recognizable as the same Sigma character, wearing different hats: a straw Mexican sombrero with tasteful colorful trim, a tan Texas cowboy hat, a dark bowler hat, and a soft green beanie. Heads only, no human bodies. Arrange shoulder-to-shoulder in a relaxed slightly staggered horizontal group with fully visible hats, generous transparent margins, no scenery, no lettering or logos. Soft muted colors compatible with a forest-green website, crisp polished emoji-like shading, warm and playful, not caricatures of people. Genuine transparent background.",
+  "asset": "sigma-house.png"
+}

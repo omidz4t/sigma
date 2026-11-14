@@ -1,0 +1,40 @@
+{
+  "tool": "Built-in imagegen",
+  "purpose": "Five transparent Moai turntable views for horizontal pointer tracking",
+  "assets": [
+    {
+      "file": "moai-center.png",
+      "reference": "User-provided Moai emoji",
+      "prompt": "Use case: identity-preserve. Asset: central frame of a 5-frame horizontal mouse-following website logo. Use the attached moai emoji as the exact design and material reference. Make ONE matching moai head, now facing perfectly straight toward the viewer (zero yaw), neutral solemn expression. Preserve the short chunky gray-mauve stone sculpture, broad nose, heavy continuous brow, recessed dark eyes, closed thick lips, rounded rectangular head and rear slab, smooth stylized emoji shading and simple soft highlights. No realism, no added details, no pupils, no neck, no pedestal. Pure transparent background, no checkerboard drawn in, no floor or cast shadow. Square canvas 1024x1024, full head entirely visible, head centered at x=512 and vertical center=512, occupy about 72% canvas height with generous identical margins. Camera at mid-face height, orthographic, head upright without tilt or vertical rotation. This is the master neutral frame for four subsequent matching rotations. No labels, text, other objects or extra heads."
+    },
+    {
+      "file": "moai-left-far.png",
+      "reference": [
+        "moai-center.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset: ONE left-far animation frame in a five-frame horizontal mouse-following website logo. Input image is the neutral front view and exact identity/geometry/material/framing reference. Change ONLY the horizontal yaw of this very same gray-mauve stylized moai emoji head: turn it 45 degrees toward the viewer's LEFT, nose pointing visibly toward the LEFT edge of the image, show the RIGHT side of the head. Camera fixed, eye-level orthographic, no vertical turn, no roll/tilt. SAME height, SAME head top/bottom coordinates, SAME optical center x and y, SAME orthographic camera distance and proportions. Preserve the identical heavy brow, long broad nose, small black oval nostrils, closed curved thick lips, stone cheek panels and pale simple highlight patches. Preserve original neutral solemn expression, colors and smooth emoji shading; do NOT add pupils, realistic texture, extra features, neck or pedestal. Keep the full head uncropped with margins matching the reference. Square 1280x1280 canvas, top of head around y=155 and base around y=1110, optical center x=640; blank margins all around. Pure transparent background with genuine alpha. No floor shadow, no checkerboard baked in, no text, no layout, no arrows, no additional objects or heads. This is a coherent turntable rotation of the reference, not a new statue design."
+    },
+    {
+      "file": "moai-left-near.png",
+      "reference": [
+        "moai-center.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset: ONE left-near animation frame in a five-frame horizontal mouse-following website logo. Input image is the neutral front view and exact identity/geometry/material/framing reference. Change ONLY the horizontal yaw of this very same gray-mauve stylized moai emoji head: turn it 22 degrees toward the viewer's LEFT, nose pointing gently toward the LEFT side of the image, a subtle three-quarter view. Camera fixed, eye-level orthographic, no vertical turn, no roll/tilt. SAME height, SAME head top/bottom coordinates, SAME optical center x and y, SAME orthographic camera distance and proportions. Preserve the identical heavy brow, long broad nose, small black oval nostrils, closed curved thick lips, stone cheek panels and pale simple highlight patches. Preserve original neutral solemn expression, colors and smooth emoji shading; do NOT add pupils, realistic texture, extra features, neck or pedestal. Keep the full head uncropped with margins matching the reference. Square 1280x1280 canvas, top of head around y=155 and base around y=1110, optical center x=640; blank margins all around. Pure transparent background with genuine alpha. No floor shadow, no checkerboard baked in, no text, no layout, no arrows, no additional objects or heads. This is a coherent turntable rotation of the reference, not a new statue design."
+    },
+    {
+      "file": "moai-right-near.png",
+      "reference": [
+        "moai-right-far.png",
+        "moai-center.png"
+      ],
+      "prompt": "Use case: precise-object-edit / identity-preserve. Make the intermediate RIGHT-FACING turntable frame of the same moai. Image 1 is the correct right-facing 45-degree view; image 2 is the neutral front view. Start from IMAGE 1 and reduce its yaw to only 20 degrees, halfway toward Image 2. IMPORTANT orientation: the nose MUST point to SCREEN RIGHT (toward the right image edge). The dark side slab must be on SCREEN LEFT, as it is in Image 1. Do NOT turn toward screen left. Nose tip should be slightly to the RIGHT of the centerline x=640, not left of it. Keep most of the face visible so this looks closer to front-facing than Image 1. Identical stone head, identical solemn closed-mouth expression, same gray-mauve colors and flat smooth emoji shading, same silhouette height top y=155 base y=1110 on square1280 canvas, same fixed eye-level orthographic camera. Only reduce horizontal yaw: no tilting up/down or roll. One whole head, centered, nothing cropped. Genuine transparent background, no floor, no shadow, no added objects, no checkerboard, no words or labels."
+    },
+    {
+      "file": "moai-right-far.png",
+      "reference": [
+        "moai-center.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset: ONE right-far animation frame in a five-frame horizontal mouse-following website logo. Input image is the neutral front view and exact identity/geometry/material/framing reference. Change ONLY the horizontal yaw of this very same gray-mauve stylized moai emoji head: turn it 45 degrees toward the viewer's RIGHT, nose pointing visibly toward the RIGHT edge of the image, show the LEFT side of the head. Camera fixed, eye-level orthographic, no vertical turn, no roll/tilt. SAME height, SAME head top/bottom coordinates, SAME optical center x and y, SAME orthographic camera distance and proportions. Preserve the identical heavy brow, long broad nose, small black oval nostrils, closed curved thick lips, stone cheek panels and pale simple highlight patches. Preserve original neutral solemn expression, colors and smooth emoji shading; do NOT add pupils, realistic texture, extra features, neck or pedestal. Keep the full head uncropped with margins matching the reference. Square 1280x1280 canvas, top of head around y=155 and base around y=1110, optical center x=640; blank margins all around. Pure transparent background with genuine alpha. No floor shadow, no checkerboard baked in, no text, no layout, no arrows, no additional objects or heads. This is a coherent turntable rotation of the reference, not a new statue design."
+    }
+  ]
+}

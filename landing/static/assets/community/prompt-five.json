@@ -1,0 +1,6 @@
+{
+  "tool": "image_gen.imagegen (built-in)",
+  "prompt": "Edit the supplied transparent Sigma mascot group image. Add exactly ONE fifth Moai Sigma head wearing a muted navy-blue flat cap, matching the existing four in stone-gray/lavender color, long nose, friendly expression, clean softly shaded emoji illustration style and scale. Preserve the original sombrero, Texas cowboy hat, bowler and green beanie characters and their recognizable appearance. Arrange all FIVE heads shoulder-to-shoulder in a cohesive slightly staggered horizontal group; widen the composition as needed so all hats and faces are fully visible. Heads only, no human bodies, no extra objects, no text or logos. Preserve genuine transparent background and generous clear margins. The website adds its MADMAIL badge separately; do not include a badge in this image.",
+  "asset": "sigma-house-five.png",
+  "reference": "sigma-house.png"
+}
